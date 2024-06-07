@@ -1,11 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cadastro de Clientes</title>
+    <!-- Adicione as bibliotecas do Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        input[type="text"], input[type="submit"] {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    
+    <h2>Cadastro de Clientes</h2>
+    <form id="cadastroForm">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" name="cpf" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Digite um CPF válido (ex: 123.456.789-01)" required>
+        <input type="submit" value="Cadastrar">
+    </form>
+
+    <script>
+        // Inicialize o Firebase
+        var firebaseConfig = {
+            apiKey: "AIzaSyBw-WeQQ5D1X2OiG0t5R5UN--sHpiI3iAo",
+            authDomain: "testes-8bc5c.firebaseapp.com",
+            databaseURL: "https://testes-8bc5c-default-rtdb.firebaseio.com",
+            projectId: "testes-8bc5c",
+            storageBucket: "testes-8bc5c.appspot.com",
+            messagingSenderId: "95549170595",
+            appId: "1:95549170595:web:f8028a19c8259870abf016"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        document.getElementById('cadastroForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita o envio do formulário
+
+            // Obtém os valores dos campos
+            var nome = document.getElementById('nome').value;
+            var cpf = document.getElementById('cpf').value;
+
+            // Referência ao Realtime Database
+            var database = firebase.database();
+            var clientesRef = database.ref('clientes');
+
+            // Salva os dados no Realtime Database
+            clientesRef.push({
+                nome: nome,
+                cpf: cpf
+            })
+            .then(function() {
+                console.log("Dados enviados com sucesso para o Firebase!");
+                // Limpa os campos após o envio
+                document.getElementById('nome').value = '';
+                document.getElementById('cpf').value = '';
+            })
+            .catch(function(error) {
+                console.error("Erro ao enviar dados para o Firebase: ", error);
+            });
+        });
+    </script>
 </body>
 </html>
