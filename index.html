@@ -43,6 +43,8 @@
         <input type="submit" value="Cadastrar">
     </form>
 
+    <div id="mensagem"></div>
+
     <script>
         // Inicialize o Firebase
         var firebaseConfig = {
@@ -73,15 +75,23 @@
                 cpf: cpf
             })
             .then(function() {
-                console.log("Dados enviados com sucesso para o Firebase!");
+                // Mensagem de sucesso
+                exibirMensagem("Dados enviados com sucesso para o Firebase!", true);
                 // Limpa os campos após o envio
                 document.getElementById('nome').value = '';
                 document.getElementById('cpf').value = '';
             })
             .catch(function(error) {
-                console.error("Erro ao enviar dados para o Firebase: ", error);
+                // Mensagem de erro
+                exibirMensagem("Erro ao enviar dados para o Firebase: " + error, false);
             });
         });
+
+        function exibirMensagem(mensagem, sucesso) {
+            var mensagemDiv = document.getElementById('mensagem');
+            mensagemDiv.textContent = mensagem;
+            mensagemDiv.style.color = sucesso ? 'green' : 'red';
+        }
     </script>
 </body>
 </html>
