@@ -83,7 +83,7 @@
             })
             .catch(function(error) {
                 // Mensagem de erro
-                exibirMensagem("Erro ao enviar dados para o Firebase: " + error, false);
+                exibirMensagem("Erro ao enviar dados para o Firebase: " + error.message, false);
             });
         });
 
